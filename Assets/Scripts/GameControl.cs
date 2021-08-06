@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameControl : MonoBehaviour {
+//GameManager (управляет состоянием игры, сценами/менюшками, их переключением)
 
+//отслеживание актуальное состояние геймплея, условия победы/поражения
+public class GameControl : MonoBehaviour
+{
     
-    int _numberPermissionAds;
-
     [HideInInspector]public Material _materialForBalls;
     LvlControl _getLvlInfo;
 
@@ -28,7 +29,6 @@ public class GameControl : MonoBehaviour {
     int _countBallsToLoss;
     //количество упавших шаров на текущий момент
     int _countBallsToDownNow;
-
 
 
     int _indexCurrentLevel;
@@ -111,7 +111,6 @@ public class GameControl : MonoBehaviour {
 
         CancelInvoke("SendLoss");
         AdvertisingHand._advertisingHand.SendIntersitialAds();
-
     }
 
 
