@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Реализовать синглтоны
 //Гейм стейт в гейм менеджере
 //Дописать гейм менеджер и проверить ссылки в инспекторе
 
@@ -10,7 +9,7 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     GameControl gameControl;
-
+    
     //transitions
     public GameObject[] _shopWindow;
     public GameObject[] _gameWindow;
@@ -21,6 +20,10 @@ public class GameManager : Singleton<GameManager>
 
     public string _refMoreGames;
     public string _refPrivacyPolicy;
+
+    GameState currentGameState = GameState.PREGAME;
+
+
 
     private void Start()
     {
@@ -33,6 +36,20 @@ public class GameManager : Singleton<GameManager>
             _gdprPanelText.SetActive(true);
     }
 
+    #region Properties    
+    public GameState CurrentGameState
+    {
+        get
+        {
+            return currentGameState;
+        }
+        set
+        {
+            //currentGameState = value;
+        }
+    }
+    #endregion
+
     #region Switching between scenes/menus   
     public void ToGameWindow()
     {
@@ -41,6 +58,7 @@ public class GameManager : Singleton<GameManager>
         foreach (var item in _gameWindow)
             item.SetActive(true);
 
+        currentGameState = GameState.GAME;
         gameControl.StartLvlFirst();
     }
 
@@ -51,8 +69,8 @@ public class GameManager : Singleton<GameManager>
         foreach (var item in _gameWindow)
             item.SetActive(false);
 
-        CancelInvoke("SendLoss");
-        AdvertisingHand._advertisingHand.SendIntersitialAds();
+        currentGameState = GameState.SHOP;
+        AdvertisingHand.Instance.SendIntersitialAds();
     }
     #endregion
 
@@ -65,8 +83,8 @@ public class GameManager : Singleton<GameManager>
             PlayerPrefs.SetInt("_gdprState", _gdprState);
         }
 
-        AdvertisingHand._advertisingHand._consentUserToGdpr = true;
-        AdvertisingHand._advertisingHand.UserSelectedConsent();
+        AdvertisingHand.Instance._consentUserToGdpr = true;
+        AdvertisingHand.Instance.UserSelectedConsent();
 
         _gdprPanelText.SetActive(false);
 
@@ -74,8 +92,8 @@ public class GameManager : Singleton<GameManager>
 
     public void GDPRNoThanks()
     {
-        AdvertisingHand._advertisingHand._consentUserToGdpr = false;
-        AdvertisingHand._advertisingHand.UserSelectedConsent();
+        AdvertisingHand.Instance._consentUserToGdpr = false;
+        AdvertisingHand.Instance.UserSelectedConsent();
 
         _gdprPanelText.SetActive(false);
     }
@@ -84,4 +102,12 @@ public class GameManager : Singleton<GameManager>
 
 
 
+}
+
+
+public enum GameState
+{
+    PREGAME,
+    SHOP,
+    GAME
 }

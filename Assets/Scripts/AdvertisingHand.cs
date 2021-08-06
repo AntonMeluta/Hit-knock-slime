@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
-public class AdvertisingHand : MonoBehaviour
+public class AdvertisingHand : Singleton<AdvertisingHand>
 {
 
      int _fixDoubleSend = 0;
@@ -17,7 +17,6 @@ public class AdvertisingHand : MonoBehaviour
 
     //---------------------------------------------------------------------------------------------------------
 
-    public static AdvertisingHand _advertisingHand = null;
     public delegate void VideoFinished();
     public VideoFinished _sendAfterFinishedRewared;
     ShowOptions _optionsRevared;
@@ -46,18 +45,10 @@ public class AdvertisingHand : MonoBehaviour
 
 
 
-    private void Awake()
+    protected override void Awake()
     {
         //Singletone realise
-        if (_advertisingHand == null)
-            _advertisingHand = this;
-        else if (_advertisingHand != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        DontDestroyOnLoad(gameObject);
-
+        base.Awake();        
 
         _optionsRevared = new ShowOptions { resultCallback = HandleShowResult };
         _posTopOrBottom = (_topBanner) ? AdPosition.Top : AdPosition.Bottom;
@@ -85,8 +76,7 @@ public class AdvertisingHand : MonoBehaviour
         _bannerView.Destroy();
     }
 
-
-
+    
     public void UserSelectedConsent()
     {
 
@@ -232,10 +222,10 @@ public class AdvertisingHand : MonoBehaviour
 
 
         
-        //3) Vungle Ads
+        /*//3) Vungle Ads
         if (Vungle.isAdvertAvailable(_intersitialVungleAutomaticCache))
         {
-            Vungle.playAd(/*options,*/ _intersitialVungleAutomaticCache);
+            Vungle.playAd( _intersitialVungleAutomaticCache);
             return;
         }
 
@@ -246,7 +236,7 @@ public class AdvertisingHand : MonoBehaviour
             // An ad is currently available, so show the interstitial.
             AppLovin.ShowInterstitial();
             return;
-        }
+        }*/
 
 
     }
@@ -264,17 +254,12 @@ public class AdvertisingHand : MonoBehaviour
 
        
 
-        //3) Vungle Rewared
+        /*//3) Vungle Rewared
         if (Vungle.isAdvertAvailable(_rewaredVungleNonAutomaticCache))
         {
-            /* Dictionary<string, object> options = new Dictionary<string, object>();
-             //options["userTag"] = "test_user_id";
-             options["alertTitle"] = "Careful!";
-             options["alertText"] = "If the video isn't completed you won't get your reward! Are you sure you want to close early?";
-             options["closeText"] = "Close";
-             options["continueText"] = "Keep Watching";*/
+            
 
-            Vungle.playAd(/*options, */_rewaredVungleNonAutomaticCache);
+            Vungle.playAd(_rewaredVungleNonAutomaticCache);
             return;
         }
 
@@ -285,7 +270,7 @@ public class AdvertisingHand : MonoBehaviour
         {
             AppLovin.ShowRewardedInterstitial();
             return;
-        }
+        }*/
 
 
 

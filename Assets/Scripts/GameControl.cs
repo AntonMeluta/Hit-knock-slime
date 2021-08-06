@@ -35,21 +35,12 @@ public class GameControl : MonoBehaviour
     public GameObject[] _packLevels;
     public GameObject[] _allBalls;
 
-    //transitions
-    public GameObject[] _shopWindow;
-    public GameObject[] _gameWindow;
-
-    //GDPR check
-    int _gdprState;
-    public GameObject _gdprPanelText;
+    
 
     public GameObject _panelQuestionsInGame;
     public GameObject _greatTextBeforeNextLvl;
 
-    public string _refMoreGames;
-    public string _refPrivacyPolicy;
-
-
+    
     private void Awake()
     {
         
@@ -58,60 +49,7 @@ public class GameControl : MonoBehaviour
             item.text = _bestScore.ToString();
         
     }
-
-    private void Start()
-    {
-        _gdprState = PlayerPrefs.GetInt("_gdprState", 0);
-        if (_gdprState > 0 || Application.systemLanguage == SystemLanguage.Russian)
-            GDPRAgreeI();
-        else
-            _gdprPanelText.SetActive(true);
-    }
-
-
-    public void GDPRAgreeI()
-    {
-        if (_gdprState == 0)
-        {
-            _gdprState = 1;
-            PlayerPrefs.SetInt("_gdprState", _gdprState);
-        }
-
-        AdvertisingHand._advertisingHand._consentUserToGdpr = true;
-        AdvertisingHand._advertisingHand.UserSelectedConsent();
-
-        _gdprPanelText.SetActive(false);
-
-    }
-
-    public void GDPRNoThanks()
-    {
-        AdvertisingHand._advertisingHand._consentUserToGdpr = false;
-        AdvertisingHand._advertisingHand.UserSelectedConsent();
-
-        _gdprPanelText.SetActive(false);
-    }
-
-
-    public void ToGameWindow()
-    {        
-        foreach (var item in _shopWindow)
-            item.SetActive(false);        
-        foreach (var item in _gameWindow)
-            item.SetActive(true);
-        StartLvlFirst();
-    }
-
-    public void ToShopWindow()
-    {
-        foreach (var item in _shopWindow)
-            item.SetActive(true);
-        foreach (var item in _gameWindow)
-            item.SetActive(false);
-
-        CancelInvoke("SendLoss");
-        AdvertisingHand._advertisingHand.SendIntersitialAds();
-    }
+       
 
 
     public void StartLvlFirst()
@@ -168,12 +106,12 @@ public class GameControl : MonoBehaviour
         if (_indexCurrentLevel > 14)
         {
             if (_indexCurrentLevel % 2 == 1)
-                AdvertisingHand._advertisingHand.SendIntersitialAds();
+                AdvertisingHand.Instance.SendIntersitialAds();
         }
         else if (_indexCurrentLevel >= 6)
         {
             if (_indexCurrentLevel % 6 == 0)
-                AdvertisingHand._advertisingHand.SendIntersitialAds();
+                AdvertisingHand.Instance.SendIntersitialAds();
         }
         
         
@@ -203,8 +141,8 @@ public class GameControl : MonoBehaviour
     public void SenderExtraChance()
     {
         //ads rewared
-        AdvertisingHand._advertisingHand._sendAfterFinishedRewared = ExtraChance;
-        AdvertisingHand._advertisingHand.SendRewaredAds();
+        AdvertisingHand.Instance._sendAfterFinishedRewared = ExtraChance;
+        AdvertisingHand.Instance.SendRewaredAds();
     }
 
 

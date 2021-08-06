@@ -80,7 +80,7 @@ public class SelectBalls : MonoBehaviour {
         if (_isPermissionToTransitionToGame)
         {
             _gc._materialForBalls = _packMaterials[_indexBallSkin];
-            _gc.ToGameWindow();
+            GameManager.Instance.ToGameWindow();
         }
         else
         {
@@ -92,8 +92,8 @@ public class SelectBalls : MonoBehaviour {
 
     public void ToStartRewared()
     {
-        AdvertisingHand._advertisingHand._sendAfterFinishedRewared = OpeningBall;
-        AdvertisingHand._advertisingHand.SendRewaredAds();
+        AdvertisingHand.Instance._sendAfterFinishedRewared = OpeningBall;
+        AdvertisingHand.Instance.SendRewaredAds();
     }
 
 
