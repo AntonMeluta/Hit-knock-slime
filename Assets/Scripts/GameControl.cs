@@ -240,15 +240,7 @@ public class GameControl : MonoBehaviour
     }
 
 
-    public void TransitionMoreGames()
-    {
-        Application.OpenURL(_refMoreGames);
-    }
-
-    public void TransitionPrivacyPolicy()
-    {
-        Application.OpenURL(_refPrivacyPolicy);
-    }
+    
 
 }
 

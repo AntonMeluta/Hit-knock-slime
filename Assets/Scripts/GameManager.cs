@@ -99,8 +99,17 @@ public class GameManager : Singleton<GameManager>
     }
     #endregion
 
+    #region Outer Ref
+    public void TransitionMoreGames()
+    {
+        Application.OpenURL(_refMoreGames);
+    }
 
-
+    public void TransitionPrivacyPolicy()
+    {
+        Application.OpenURL(_refPrivacyPolicy);
+    }
+    #endregion
 
 }
 
