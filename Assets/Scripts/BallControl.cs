@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+//Внедрить полёт через параболу
 public class BallControl : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler {
 
 
@@ -14,7 +15,6 @@ public class BallControl : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
     MeshRenderer _meshRenderer;
 
     GameControl _gameControl;
-
 
     Vector3 _startDrag;
     Vector3 _endDrag;

@@ -715,6 +715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3b20dfca72cae746b16073917a05056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedRotate: 20
 --- !u!23 &30527032 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2300000, guid: fdfcb3d27f154904db014ac2f4dfa278, type: 3}
@@ -14202,6 +14203,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetBeforeDrag: {fileID: 1783396340}
+  bottomBorderSpeed: 4000
+  upBorderSpeed: 7000
 --- !u!1 &937406509
 GameObject:
   m_ObjectHideFlags: 0
@@ -15816,6 +15819,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetBeforeDrag: {fileID: 1783396340}
+  bottomBorderSpeed: 4000
+  upBorderSpeed: 7000
 --- !u!1 &1089452400
 GameObject:
   m_ObjectHideFlags: 0
@@ -20850,6 +20855,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetBeforeDrag: {fileID: 1783396340}
+  bottomBorderSpeed: 4000
+  upBorderSpeed: 7000
 --- !u!1 &1420881216
 GameObject:
   m_ObjectHideFlags: 0
@@ -24363,8 +24370,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 85872857}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1616246095}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: ToShopWindow
         m_Mode: 1
         m_Arguments:
@@ -29379,6 +29386,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetBeforeDrag: {fileID: 1783396340}
+  bottomBorderSpeed: 4000
+  upBorderSpeed: 7000
 --- !u!1001 &1854530343
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32024,6 +32033,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetBeforeDrag: {fileID: 1783396340}
+  bottomBorderSpeed: 4000
+  upBorderSpeed: 7000
 --- !u!1 &2032593734
 GameObject:
   m_ObjectHideFlags: 0

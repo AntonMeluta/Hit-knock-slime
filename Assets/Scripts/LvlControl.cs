@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class LvlControl : MonoBehaviour {
 
-    GameControl _gameControl;
-
     BankaController[] _allBanksChildren;
-    GameObject[] _allBanksObjectsChildren;
+    //GameObject[] _allBanksObjectsChildren;
 
     [HideInInspector]public int _countBank;
     public CountBalls _countBalls;
@@ -18,28 +16,18 @@ public class LvlControl : MonoBehaviour {
 
         _allBanksChildren = GetComponentsInChildren<BankaController>();
         _countBank = _allBanksChildren.Length;
-        _allBanksObjectsChildren = new GameObject[_allBanksChildren.Length];
+        /*_allBanksObjectsChildren = new GameObject[_allBanksChildren.Length];
         for (int i = 0; i < _allBanksChildren.Length; i++)        
-            _allBanksObjectsChildren[i] = _allBanksChildren[i].gameObject;
+            _allBanksObjectsChildren[i] = _allBanksChildren[i].gameObject;*/
         
     }
 
     private void OnEnable()
     {
-        foreach (var item in _allBanksObjectsChildren)
-        {
-            item.SetActive(true);
-        }
-    }
-
-
-    private void Start()
-    {
-        _gameControl = GameObject.FindObjectOfType<GameControl>();
+        foreach (var item in _allBanksChildren)
+            item.gameObject.SetActive(true);
+        
     }
 
     
-
-
-
 }

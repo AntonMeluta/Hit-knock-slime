@@ -17,11 +17,9 @@ public class SelectBalls : MonoBehaviour {
 
 
     private void Awake()
-    {
-        
+    {      
 
         _gc = GameObject.FindObjectOfType<GameControl>();
-        //_rendererBall = GetComponentInChildren<MeshRenderer>();
 
         _indexBallSkin = 0;
         PlayerPrefs.SetInt("ballCheckSki1nn1" + _indexBallSkin, 1);
@@ -106,7 +104,6 @@ public class SelectBalls : MonoBehaviour {
 
         _lockObject.SetActive(false);
         _isPermissionToTransitionToGame = true;
-
 
     }
 

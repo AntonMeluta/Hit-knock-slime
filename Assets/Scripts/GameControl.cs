@@ -8,7 +8,10 @@ using UnityEngine.UI;
 //отслеживает актуальное состояние геймплея, условие победы/поражения
 public class GameControl : MonoBehaviour
 {
-    
+    readonly int numberLevelHard = 13;
+    readonly int numberLevelMiddle = 6;
+    readonly int multiplyScore = 3;
+
     [HideInInspector]public Material _materialForBalls;
     LvlControl _getLvlInfo;
 
@@ -58,7 +61,6 @@ public class GameControl : MonoBehaviour
         _countBankToDownNow = 0;
         _countBallsToDownNow = 0;
 
-
         //включаем первый уровень
         _indexCurrentLevel = 0;
         for (int i = 0; i < _packLevels.Length; i++)
@@ -81,7 +83,6 @@ public class GameControl : MonoBehaviour
         _currentScore = 0;
         foreach (var item in _uiCurrentScore)
             item.text = _currentScore.ToString();
-
         
     }
 
@@ -92,24 +93,26 @@ public class GameControl : MonoBehaviour
         _greatTextBeforeNextLvl.SetActive(false);
         
 
-        //обнуление текущих значений упавших юанов и шаров
+        //обнуление текущих значений упавших банок и шаров
         _countBankToDownNow = 0;
         _countBallsToDownNow = 0;
 
         //включаем следующий уровень
         _indexCurrentLevel++;
         if (_indexCurrentLevel == _packLevels.Length)
-            _indexCurrentLevel = 13;
-        print("_indexCurrentLevel = " + _indexCurrentLevel);
+            _indexCurrentLevel = numberLevelHard;
 
-        if (_indexCurrentLevel > 14)
+        
+
+        //регулировка частоты показа межстраничной рекламы
+        if (_indexCurrentLevel > numberLevelHard + 1)
         {
             if (_indexCurrentLevel % 2 == 1)
                 AdvertisingHand.Instance.SendIntersitialAds();
         }
-        else if (_indexCurrentLevel >= 6)
+        else if (_indexCurrentLevel >= numberLevelMiddle)
         {
-            if (_indexCurrentLevel % 6 == 0)
+            if (_indexCurrentLevel % numberLevelMiddle == 0)
                 AdvertisingHand.Instance.SendIntersitialAds();
         }
         
@@ -168,7 +171,7 @@ public class GameControl : MonoBehaviour
     //считаем упавшие банки до победы и очки
     public void UpdateScore()
     {
-        _currentScore += 3;
+        _currentScore += multiplyScore;
         foreach (var item in _uiCurrentScore)
             item.text = _currentScore.ToString();
         if (_currentScore > _bestScore)
@@ -188,7 +191,6 @@ public class GameControl : MonoBehaviour
             CancelInvoke("SendLoss");
             print("WIN!!!");
             //если какие-то шары остались нетронутыми, начисляем бонусные балы
-            //if () GREAT SEND!!!
             _greatTextBeforeNextLvl.SetActive(true);
             Invoke("ToNextLevel", 1f);
         }
@@ -217,10 +219,12 @@ public class GameControl : MonoBehaviour
     //считаем упавшие мячи до поражения
     public void CountingFallenBalls()
     {
+        int delayToLoss = 3;
         _countBallsToDownNow++;
+
         if (_countBallsToDownNow == _countBallsToLoss)
         {
-            Invoke("SendLoss", 3);
+            Invoke("SendLoss", delayToLoss);
         }
     }
 
