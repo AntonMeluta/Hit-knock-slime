@@ -1510,8 +1510,6 @@ MonoBehaviour:
   - {fileID: 1411605593}
   _panelQuestionsInGame: {fileID: 1565031726}
   _greatTextBeforeNextLvl: {fileID: 357153332}
-  _refMoreGames: http://itunes.apple.com/us/developer/%D0%B0nton-meluta/id1437314727?mt=8
-  _refPrivacyPolicy: http://sites.google.com/view/akaprodgames
 --- !u!4 &85872858
 Transform:
   m_ObjectHideFlags: 0
@@ -9464,10 +9462,6 @@ MonoBehaviour:
   _consentUserToGdpr: 0
   _appIdAdmob: ca-app-pub-7794534412956852~8538649971
   _bannerIdAdmob: ca-app-pub-7794534412956852/9468588267
-  appIdVungle: 5c6089c36da11d00114da98f
-  _intersitialVungleAutomaticCache: DEFAULT-9773180
-  _rewaredVungleNonAutomaticCache: REWARED_HIT_SLIME-6515168
-  SDK_KEY: mTanzsuvkpTB-Ln8_xJ7I3-ZhOUzDO3-ydlvUdpDRHOPcATb5siNvhyb4RTIrcGnF0gldUy3mLSMV0ybsf-mLw
 --- !u!4 &630888904
 Transform:
   m_ObjectHideFlags: 0
@@ -24981,6 +24975,10 @@ MonoBehaviour:
   _shopWindow:
   - {fileID: 1431476292}
   _gameWindow:
+  - {fileID: 1153954924}
+  - {fileID: 1896527833}
+  - {fileID: 1155837588}
+  - {fileID: 1057609988}
   - {fileID: 1108859435}
   _gdprPanelText: {fileID: 2008634642}
   _refMoreGames: http://itunes.apple.com/us/developer/%D0%B0nton-meluta/id1437314727?mt=8

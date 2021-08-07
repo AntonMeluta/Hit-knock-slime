@@ -27,6 +27,11 @@ public class BallControl : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
     bool _isDecrementSpeed;
     float _speedCheck;
     float _speed = 3000;
+    [SerializeField]int bottomBorderSpeed = 4000;
+    [SerializeField] int upBorderSpeed = 7000;
+    float borderBottomTapScreen = 0.2f;
+    int valueSmoothSpeed = 150;
+
 
     bool _isMove;
     bool _isStartTimeStopwatch;
@@ -42,7 +47,6 @@ public class BallControl : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
         _startQuat = transform.rotation;
         _startPos = transform.position;
 
-        //_targetBeforeDrag = GameObject.Find("TargetToStartBall").transform.position;
     }
 
     private void OnEnable()
@@ -50,27 +54,18 @@ public class BallControl : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
         _isMove = false;
         _isStartTimeStopwatch = false;
         _isFly = false;
-        _isOnlyHorizontal = false;
-
-        
+        _isOnlyHorizontal = false;        
 
         _rb.velocity = Vector3.zero;
         transform.rotation = _startQuat;
         transform.position = _startPos;
         _rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ 
-            | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX;
-        
-        
-
+            | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX; 
         
         _meshRenderer.material = _gameControl._materialForBalls;
         _startMoveCor = StartCoroutine(STartMoveBalls());
 
     }
-
-
-
-   
 
     public void OnBeginDrag(PointerEventData eventData)
     {        
@@ -79,23 +74,19 @@ public class BallControl : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
 
     public void OnDrag(PointerEventData eventData)
     {
-        //PROD
-        _speedCheck += eventData.delta.y * 5;
-        _speedCheck = Mathf.Clamp(_speedCheck, 4000, 7000);
-        //print("_speedCheck = " + _speedCheck);
 
+        _speedCheck += eventData.delta.y * 5;
+        _speedCheck = Mathf.Clamp(_speedCheck, bottomBorderSpeed, upBorderSpeed);
 
         //ЕСЛИ МЫ ДВИГАЕМ ПАЛЕЦ ТОЛЬКО ПО ГОРИЗОНТАЛИ
-        if (Input.mousePosition.y < Screen.height * 0.2f)
+        if (Input.mousePosition.y < Screen.height * borderBottomTapScreen)
         {
             _isOnlyHorizontal = true;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 1000))
-                _targetBfrDragLowerY = new Vector3(hit.point.x, 0, 0);
-
-            
+                _targetBfrDragLowerY = new Vector3(hit.point.x, 0, 0);            
         }
         //Ушли свайпом вверх
         else        
@@ -104,9 +95,8 @@ public class BallControl : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
 
 
         //Если свайп ушёл наверх в первый раз
-        if (!_isStartTimeStopwatch && Input.mousePosition.y > Screen.height * 0.2f)
+        if (!_isStartTimeStopwatch && Input.mousePosition.y > Screen.height * borderBottomTapScreen)
         {
-            //print("ВЫСОТА ВЫШЕ 15");
             _isStartTimeStopwatch = true;
             _timeStopwatchCor = StartCoroutine(TimeStopwatch());
         }
@@ -116,11 +106,14 @@ public class BallControl : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
     public void OnEndDrag(PointerEventData eventData)
     {
         _isOnlyHorizontal = false;
+        int multiplierSpeed = 2500;
+        int multiplierSpeedToBanka = 6000;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 1000) && Input.mousePosition.y > Screen.height * 0.2f && !_isFly)
+        if (Physics.Raycast(ray, out hit, 1000) && Input.mousePosition.y > 
+            Screen.height * borderBottomTapScreen && !_isFly)
         {
 
             StopCoroutine(_startMoveCor);
@@ -130,34 +123,33 @@ public class BallControl : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
 
             _endDrag = hit.point;
 
-            //_direction = _endDrag - _startDrag;            
             _direction = _endDrag - transform.position;
             _rb.constraints = RigidbodyConstraints.None;
             _isFly = true;
-            _rb.AddForce(_direction.normalized * _speedCheck + new Vector3(0, 2500, 0), ForceMode.Force);
+
+            _rb.AddForce(_direction.normalized * _speedCheck + 
+                new Vector3(0, multiplierSpeed, 0), ForceMode.Force);
+
             _gameControl.DecrementJobsBalls();
+
             if (hit.collider.tag == "Banka")
             {
-                _rb.AddForce(_direction.normalized * _speedCheck + new Vector3(0, 6000, 0), ForceMode.Force);
-                //Invoke("EnableMove", 0.2f);
-                EnableMove();
+                _rb.AddForce(_direction.normalized * _speedCheck + 
+                    new Vector3(0, multiplierSpeedToBanka, 0), ForceMode.Force);
+
+                _isMove = true;
             }
                
         }
     }
 
-    void EnableMove()
-    {
-        _isMove = true;
-    }
 
     void FixedUpdate ()
     {
         if (!_isMove)
             return;
 
-        //ANTI PROD velocit
-        _rb.velocity = _direction.normalized * _speedCheck / 150;
+        _rb.velocity = _direction.normalized * _speedCheck / valueSmoothSpeed;
 
     }
 
@@ -169,15 +161,16 @@ public class BallControl : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
 
 
     IEnumerator STartMoveBalls()
-    {        
-        //float _del = 0;
+    {
+
+        int increaseVelocity = 4;
 
         while (true)
         {
             if (_isOnlyHorizontal)
             {
                 _direction = _targetBfrDragLowerY - transform.position;
-                _rb.velocity = _direction.normalized * 4;
+                _rb.velocity = _direction.normalized * increaseVelocity;
             }
             else
             {
@@ -197,21 +190,22 @@ public class BallControl : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
     {
 
         _timeNotDrag = 0;
+        int increaseSpeed = 60;
+
         while (_timeNotDrag < 2)
         {
             _timeNotDrag += Time.deltaTime;
-            //ANTI PROD
-            _speedCheck -= _timeNotDrag * 60;
-            _speedCheck = Mathf.Clamp(_speedCheck, 4000, 7000);
-            //print("_speedCheck = " + _speedCheck);
+            _speedCheck -= _timeNotDrag * increaseSpeed;
+            _speedCheck = Mathf.Clamp(_speedCheck, bottomBorderSpeed, upBorderSpeed);
             yield return null;
         }
 
-        //Overly long delay drag
+        //if Overly long delay drag
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+        
 
-        if (Physics.Raycast(ray, out hit, 1000) && Input.mousePosition.y > Screen.height * 0.2f)
+        if (Physics.Raycast(ray, out hit, 1000) && Input.mousePosition.y > Screen.height * borderBottomTapScreen)
         {
                       
             StopCoroutine(_startMoveCor);
@@ -226,25 +220,11 @@ public class BallControl : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
             _rb.AddForce(_direction.normalized * _speedCheck, ForceMode.Force);
             _gameControl.DecrementJobsBalls();
             if (hit.collider.tag == "Banka")
-                //Invoke("EnableMove", 0.2f);
-                EnableMove();
+                _isMove = true;
 
 
         }
     }
-    /*
-      - реализовать возможность двигать вбок ++++++
-      -адекватно летят только если rotation в нулях ++++ fixed
-       - сделать минимальное движение в центр ++++
-        - ограничить границы +++++
-         - написать логику игры (рестарт, продвижение по уровням, триггеры смерти, подчёт упавших банок и шаров) ++++
-         - Начать пилить UI. +- 
-          - GREAT доделать ++++++
-          - Запилить уровни.
-           - Заменить текстуры мяча, либо убрать косяченные.
-          - Прописать банкам рестарт позиции. +++++
-          - GDPR. ++++
-           - Ads. +++++
-     * */
+ 
     
 }

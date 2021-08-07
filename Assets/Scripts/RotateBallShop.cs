@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class RotateBallShop : MonoBehaviour {
 
-
+    [SerializeField]int speedRotate = 20;
 
     private void Update()
     {
-        transform.Rotate(new Vector3(0, 20 * Time.deltaTime, 0));
+        transform.Rotate(new Vector3(0, speedRotate * Time.deltaTime, 0));
     }
 
 

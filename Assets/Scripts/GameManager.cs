@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Гейм стейт в гейм менеджере
-//Дописать гейм менеджер и проверить ссылки в инспекторе
 
 //GameManager (управляет состоянием игры, сценами/менюшками, их переключением)
 public class GameManager : Singleton<GameManager>

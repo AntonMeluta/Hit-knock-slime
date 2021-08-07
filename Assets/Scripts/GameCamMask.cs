@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class GameCamMask : MonoBehaviour {
 
-
+    int maskCamGameplay = -1;
+    int maskCamMenu = 32;
 
     private void OnEnable()
     {
-        Camera.main.cullingMask = 32;
+        Camera.main.cullingMask = maskCamMenu;
     }
 
     private void OnDisable()
     {
-        Camera.main.cullingMask = -1;
+        Camera.main.cullingMask = maskCamGameplay;
     }
 
 

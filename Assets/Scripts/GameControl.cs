@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-//GameManager (управляет состоянием игры, сценами/менюшками, их переключением)
 
-//отслеживание актуальное состояние геймплея, условия победы/поражения
+//отслеживает актуальное состояние геймплея, условие победы/поражения
 public class GameControl : MonoBehaviour
 {
     
