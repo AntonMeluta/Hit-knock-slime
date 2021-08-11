@@ -9459,7 +9459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _topBanner: 1
-  _testMode: 0
+  _testMode: 1
   _consentUserToGdpr: 0
   _appIdAdmob: ca-app-pub-7794534412956852~8538649971
   _bannerIdAdmob: ca-app-pub-7794534412956852/9468588267
@@ -11474,7 +11474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &780508415
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26658,7 +26658,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1713075795
 RectTransform:
   m_ObjectHideFlags: 0

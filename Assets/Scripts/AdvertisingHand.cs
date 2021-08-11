@@ -157,6 +157,12 @@ public class AdvertisingHand : Singleton<AdvertisingHand>
     public void SendRewaredAds()
     {
         //1) Unity Rewared
+        if (_testMode)
+        {
+            _sendAfterFinishedRewared();
+            return;
+        }
+
         if (Advertisement.IsReady("rewardedVideo"))
         {
             Advertisement.Show("rewardedVideo", _optionsRevared);
